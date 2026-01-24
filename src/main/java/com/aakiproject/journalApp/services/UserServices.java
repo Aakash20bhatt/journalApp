@@ -23,16 +23,18 @@ public class UserServices {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean saveNewUser(User user) {
-        try {
+    public void saveNewUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("USER"));
+        log.info("Saving user to Mongo: {}", user);
+        userRepository.save(user);
+    }
+
+    public void updateUser(User user) {
+        if (user.getPassword() != null && !user.getPassword().startsWith("$2")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Arrays.asList("USER"));
-            userRepository.save(user);
-            return true;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return false;
         }
+        userRepository.save(user);
     }
 
     public void saveUser(User user) {

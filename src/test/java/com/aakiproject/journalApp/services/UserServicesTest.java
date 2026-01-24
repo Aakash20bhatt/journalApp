@@ -29,7 +29,7 @@ public class UserServicesTest {
     @ParameterizedTest
     @ArgumentsSource(UserArgumentsProvider.class)
     public void testSaveNewUser(User user){
-        assertTrue(userServices.saveNewUser(user));
+        userServices.saveNewUser(user);
     }
 
     @ParameterizedTest

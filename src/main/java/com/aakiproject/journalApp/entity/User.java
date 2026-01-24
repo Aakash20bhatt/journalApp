@@ -1,8 +1,7 @@
 package com.aakiproject.journalApp.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,14 +14,15 @@ import java.util.List;
 
 @Document(collection ="users")
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     private ObjectId id;
     @Indexed(unique = true)
-    @NonNull
+    @NotBlank
     private String userName;
-    @NonNull
+    @NotBlank
     private String password;
     @DBRef
     List<JournalEntry> journalEntries = new ArrayList<>();

@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 
 
 @Document(collection ="journal_entries")
-//@Setter
-//@Getter
 @Data
 @NoArgsConstructor
 public class JournalEntry {
