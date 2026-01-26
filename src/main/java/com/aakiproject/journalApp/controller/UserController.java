@@ -1,5 +1,7 @@
 package com.aakiproject.journalApp.controller;
 
+import com.aakiproject.journalApp.api.response.PostRequest;
+import com.aakiproject.journalApp.api.response.PostResponse;
 import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.repository.UserRepository;
 import com.aakiproject.journalApp.services.PostService;
@@ -53,6 +55,14 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> gettingTitle() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>("Hi "+authentication.getName()+", title for external Api post "+ postService.getTitle() ,HttpStatus.OK);
+        return new ResponseEntity<>("Hi "+authentication.getName()+", title for external Api post: "+ postService.getTitle() ,HttpStatus.OK);
+    }
+
+    @PostMapping("/external-post")
+    public ResponseEntity<?> createExternalPost(@RequestBody PostRequest request) {
+
+        PostResponse response = postService.createPost(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

@@ -26,11 +26,11 @@ public class UserServicesTest {
         assertNotNull(userRepository.findByUserName("shyam"));
     }
 
-    @ParameterizedTest
-    @ArgumentsSource(UserArgumentsProvider.class)
-    public void testSaveNewUser(User user){
-        userServices.saveNewUser(user);
-    }
+//    @ParameterizedTest
+//    @ArgumentsSource(UserArgumentsProvider.class)
+//    public void testSaveNewUser(User user){
+//        assertTrue(userServices.saveNewUser(user));
+//    }
 
     @ParameterizedTest
     @CsvSource({

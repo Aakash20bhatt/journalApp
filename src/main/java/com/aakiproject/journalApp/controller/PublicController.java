@@ -15,9 +15,9 @@ public class PublicController {
     private UserServices userServices;
 
     @PostMapping("/create_user")
-    public void createUser(@Valid @RequestBody User user) {
+    public boolean createUser(@Valid @RequestBody User user) {
         log.info("createUser {}", user);
-        userServices.saveNewUser(user);
+        return userServices.saveNewUser(user);
     }
 
     @GetMapping("/health-check")
