@@ -2,6 +2,7 @@ package com.aakiproject.journalApp.services;
 
 import com.aakiproject.journalApp.api.response.PostRequest;
 import com.aakiproject.journalApp.api.response.PostResponse;
+import com.aakiproject.journalApp.cache.AppCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -9,8 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class PostService {
-    private static final String API = "https://jsonplaceholder.typicode.com/posts/1";
-    private static final String POST_API = "https://jsonplaceholder.typicode.com/posts";
+    @Autowired
+    private AppCache appCache;
+
+    private static final String API = "";
     @Autowired
     private final RestTemplate restTemplate;
 
@@ -19,7 +22,7 @@ public class PostService {
     }
 
     public String getTitle() {
-        ResponseEntity<PostResponse> postResponse = restTemplate.exchange(API, HttpMethod.GET, null, PostResponse.class);
+        ResponseEntity<PostResponse> postResponse = restTemplate.exchange(appCache.AppCache.get("post_get_request"), HttpMethod.GET, null, PostResponse.class);
         return postResponse.getBody().getTitle();
     }
 
@@ -34,7 +37,7 @@ public class PostService {
 
         ResponseEntity<PostResponse> response =
                 restTemplate.exchange(
-                        POST_API,
+                        appCache.AppCache.get("post_create_request"),
                         HttpMethod.POST,
                         requestEntity,
                         PostResponse.class

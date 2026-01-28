@@ -1,5 +1,6 @@
 package com.aakiproject.journalApp.controller;
 
+import com.aakiproject.journalApp.cache.AppCache;
 import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private UserServices userServices;
+
+    @Autowired
+    private AppCache appCache;
 
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUser(){
@@ -34,5 +38,10 @@ public class AdminController {
         userServices.promoteToAdmin(username);
 
         return ResponseEntity.ok("Successfully promoted to ADMIN");
+    }
+
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
