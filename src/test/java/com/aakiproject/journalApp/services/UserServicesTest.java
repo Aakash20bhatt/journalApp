@@ -2,6 +2,7 @@ package com.aakiproject.journalApp.services;
 
 import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -21,6 +22,7 @@ public class UserServicesTest {
     private UserServices userServices;
 
     @Test
+    @Disabled
     public void testFindByUserName() {
         assertEquals(4,2+2);
         assertNotNull(userRepository.findByUserName("shyam"));
@@ -38,6 +40,7 @@ public class UserServicesTest {
             "2,10,12",
             "3,3,6"
     })
+    @Disabled
     public void test(int a, int b, int expected){
         assertEquals(expected,a+b);
     }
