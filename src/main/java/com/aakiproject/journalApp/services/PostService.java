@@ -17,13 +17,25 @@ public class PostService {
     @Autowired
     private final RestTemplate restTemplate;
 
+    @Autowired
+    private RedisService redisService;
+
     public PostService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public String getTitle() {
-        ResponseEntity<PostResponse> postResponse = restTemplate.exchange(appCache.AppCache.get("post_get_request"), HttpMethod.GET, null, PostResponse.class);
-        return postResponse.getBody().getTitle();
+        PostResponse postResponse = redisService.get("external_title",PostResponse.class);
+        if (postResponse != null) {
+            return postResponse.getTitle();
+        }else{
+            ResponseEntity<PostResponse> postResponse1 = restTemplate.exchange(appCache.AppCache.get("post_get_request"), HttpMethod.GET, null, PostResponse.class);
+            if (postResponse1.getBody() != null) {
+                redisService.set("external_title",postResponse1.getBody(),300l);
+            }
+            return postResponse1.getBody().getTitle();
+        }
+
     }
 
     // POST (NEW)
