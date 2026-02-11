@@ -1,11 +1,9 @@
 package com.aakiproject.journalApp.services;
 
-import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.repository.UserRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +23,7 @@ public class UserServicesTest {
     @Disabled
     public void testFindByUserName() {
         assertEquals(4,2+2);
-        assertNotNull(userRepository.findByUserName("shyam"));
+        assertNotNull(userRepository.findByUserName("Shyam"));
     }
 
 //    @ParameterizedTest
