@@ -17,6 +17,11 @@ public class RedisService {
     public <T> T get(String key, Class<T> entityClass) {
         try{
             Object o = redisTemplate.opsForValue().get(key);
+            log.error(o.toString());
+            if (o == null) {
+                log.info("Redis key '{}' not found", key);
+                return null;
+            }
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(o.toString(), entityClass);
         }catch (Exception e){
@@ -30,6 +35,7 @@ public class RedisService {
             ObjectMapper mapper = new ObjectMapper();
             String jsonValue = mapper.writeValueAsString(value);
             redisTemplate.opsForValue().set(key,jsonValue,expireTime, TimeUnit.SECONDS);
+            log.info("Saved key '{}' to Redis with TTL {} seconds", key, expireTime);
         }catch (Exception e){
             log.error(e.getMessage());
         }

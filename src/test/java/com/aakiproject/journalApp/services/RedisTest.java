@@ -15,7 +15,7 @@ public class RedisTest {
     @Test
     void testSendMail() {
         redisTemplate.opsForValue().set("email","aakash@email.com");
-        Object salary = redisTemplate.opsForValue().get("salary");
+        Object email = redisTemplate.opsForValue().get("email");
         int a=1;
     }
 }
