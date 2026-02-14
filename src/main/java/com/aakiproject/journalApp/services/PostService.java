@@ -13,16 +13,12 @@ public class PostService {
     @Autowired
     private AppCache appCache;
 
-    private static final String API = "";
     @Autowired
-    private final RestTemplate restTemplate;
+    private  RestTemplate restTemplate;
 
     @Autowired
     private RedisService redisService;
 
-    public PostService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public String getTitle() {
         PostResponse postResponse = redisService.get("external_title",PostResponse.class);
