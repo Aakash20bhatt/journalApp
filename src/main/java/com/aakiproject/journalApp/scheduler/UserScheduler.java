@@ -63,6 +63,7 @@ public class UserScheduler {
                         System.out.println("Message sent to Kafka");
                     } else {
                         System.out.println("Kafka error: " + ex.getMessage());
+                        emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
                     }
                 });
             }
