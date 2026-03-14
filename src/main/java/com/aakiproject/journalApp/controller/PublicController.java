@@ -1,9 +1,11 @@
 package com.aakiproject.journalApp.controller;
 
+import com.aakiproject.journalApp.dtos.UserDTO;
 import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.services.UserDetailsServiceImpl;
 import com.aakiproject.journalApp.services.UserServices;
 import com.aakiproject.journalApp.utils.JwtUtils;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequestMapping("/public")
+@Tag(name="Public APIs")
 public class PublicController {
     @Autowired
     private UserServices userServices;
@@ -31,9 +34,14 @@ public class PublicController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/signup")
-    public boolean signup(@Valid @RequestBody User user) {
+    public boolean signup(@Valid @RequestBody UserDTO user) {
         log.info("signup {}", user);
-        return userServices.saveNewUser(user);
+        User newUser = new User();
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setEmail(user.getEmail());
+        newUser.setSentimentAnalysis(user.isSentimentAnalysis());
+        return userServices.saveNewUser(newUser);
     }
 
     @PostMapping("/login")

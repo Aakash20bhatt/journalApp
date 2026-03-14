@@ -1,6 +1,7 @@
 package com.aakiproject.journalApp.entity;
 
 import com.aakiproject.journalApp.Enum.Sentiment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

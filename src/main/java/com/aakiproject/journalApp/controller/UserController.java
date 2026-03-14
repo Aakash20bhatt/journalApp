@@ -6,6 +6,7 @@ import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.repository.UserRepository;
 import com.aakiproject.journalApp.services.PostService;
 import com.aakiproject.journalApp.services.UserServices;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name="User APIs", description = "Read, Update and Delete User")
 public class UserController {
     @Autowired
     private UserServices userServices;

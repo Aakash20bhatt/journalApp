@@ -4,6 +4,8 @@ import com.aakiproject.journalApp.entity.JournalEntry;
 import com.aakiproject.journalApp.entity.User;
 import com.aakiproject.journalApp.services.JournalEntryServices;
 import com.aakiproject.journalApp.services.UserServices;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/journal")
+@Tag(name="Journal APIs")
 public class JournalEntryController {
 
     @Autowired
@@ -29,6 +32,7 @@ public class JournalEntryController {
     private UserServices userServices;
 
     @GetMapping()
+    @Operation(summary = "Get all the journal entries of a user")
     public ResponseEntity<?>  getAllJournalEntriesOfUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
@@ -50,13 +54,14 @@ public class JournalEntryController {
     }
 
     @PutMapping("id/{id}")
-    public ResponseEntity<?> updateEntry(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry) {
+    public ResponseEntity<?> updateEntry(@PathVariable String id, @RequestBody JournalEntry newEntry) {
+        ObjectId objectId = new ObjectId(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userServices.findByUserName(userName);
-        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(id)).collect(Collectors.toList());
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(objectId)).collect(Collectors.toList());
         if(!collect.isEmpty()) {
-            Optional<JournalEntry> journalEntry = journalEntryServices.findById(id);
+            Optional<JournalEntry> journalEntry = journalEntryServices.findById(objectId);
             if(journalEntry.isPresent()) {
                 JournalEntry oldEntry = journalEntry.get();
                 oldEntry.setTitle(newEntry.getTitle()!=null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle():oldEntry.getTitle() );
@@ -70,10 +75,11 @@ public class JournalEntryController {
     }
 
     @DeleteMapping("id/{myId}")
-    public ResponseEntity<?> deleteEntry(@PathVariable ObjectId myId) {
+    public ResponseEntity<?> deleteEntry(@PathVariable String myId) {
+        ObjectId objectId = new ObjectId(myId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        boolean removed = journalEntryServices.deleteById(myId,userName);
+        boolean removed = journalEntryServices.deleteById(objectId,userName);
         if(removed){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -81,13 +87,14 @@ public class JournalEntryController {
     }
 
     @GetMapping("id/{myId}")
-    public ResponseEntity<?> getEntryById(@PathVariable ObjectId myId) {
+    public ResponseEntity<?> getEntryById(@PathVariable String myId) {
+        ObjectId objectId = new ObjectId(myId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userServices.findByUserName(userName);
-        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(objectId)).collect(Collectors.toList());
         if(!collect.isEmpty()) {
-            Optional<JournalEntry> byId = journalEntryServices.findById(myId);
+            Optional<JournalEntry> byId = journalEntryServices.findById(objectId);
             if(byId.isPresent()) {
                 return new ResponseEntity<>(byId.get(), HttpStatus.OK);
             }

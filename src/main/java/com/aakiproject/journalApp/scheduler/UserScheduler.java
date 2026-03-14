@@ -41,7 +41,7 @@ public class UserScheduler {
         List<User> users = userRepository.getUserForSA();
         for(User user : users){
             List<JournalEntry> journalEntries = user.getJournalEntries();
-            List<Sentiment> sentiments = journalEntries.stream().filter(x -> x.getDate().isAfter(LocalDateTime.now().minusMonths(3))).map(JournalEntry::getSentiment).toList();
+            List<Sentiment> sentiments = journalEntries.stream().filter(x -> x.getDate().isAfter(LocalDateTime.now().minusDays(2))).map(JournalEntry::getSentiment).toList();
             Map<Sentiment, Integer> sentimentCounts = new HashMap<>();
             for(Sentiment sentiment : sentiments){
                 if(sentiment!=null)
